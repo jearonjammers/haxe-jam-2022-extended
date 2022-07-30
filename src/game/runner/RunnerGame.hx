@@ -128,7 +128,7 @@ class RunnerGame extends Component {
 			.addChild(new Entity() //
 				.add(_sun = new RunnerSun(_pack, 440, 90))) //
 			.addChild(_sceneryMid = new Entity().add(new Sprite()))
-			.add(_controlDesktop = new ControlDesktop())
+			.add(_controller = new Controller())
 			.addChild(new Entity() //
 				.add(_personSpr = new Sprite()) //
 				.add(_person = new Person(_pack))) //
@@ -167,7 +167,7 @@ class RunnerGame extends Component {
 			this._root.addChild(new Entity().add(lostSpr));
 		}).once());
 
-		_disposer.add(_controlDesktop.state.changed.connect((s, _) -> {
+		_disposer.add(_controller.state.changed.connect((s, _) -> {
 			switch [s, _person.movetype] {
 				// request jump
 				case [Up, Jump]: // ignore if in jump state
@@ -296,7 +296,7 @@ class RunnerGame extends Component {
 	private var _cloud2:Sprite;
 	private var _sun:RunnerSun;
 	private var _person:Person;
-	private var _controlDesktop:ControlDesktop;
+	private var _controller:Controller;
 	private var _homeButton:Button;
 	private var _sceneryBack:Entity;
 	private var _sceneryMid:Entity;
