@@ -53,6 +53,8 @@ class CafeGame extends Component {
 
 			if (isDrinking()) {
 				_fillAmount += dt;
+				var sc = System.root.get(OverallScore);
+				sc.scoreFirst._ = Math.floor(_fillAmount * 84);
 			} else if (isSpilling()) {
 				if (_spillAmount == 0) {
 					Audio.playSound_("sfx/cafe/bottleSplash");
@@ -133,7 +135,8 @@ class CafeGame extends Component {
 			.add(this._barDrinks = new Bar(pack, this._liquid, this))
 			.addChild(new Entity().add(_homeButton = new Button(pack, "homeButton", width - 121, 90))) //
 			.addChild(this._meterTime) //
-			.addChild(this._meterDrink); //
+			.addChild(this._meterDrink) //
+			.add(_points = new Points(_pack, 1550, 49)); //
 
 		this._thirstyPerson.bindTo(_anchorX, _anchorY, _rotation);
 		this._thirstyArms.bindTo(_anchorX, _anchorY, _rotation);
@@ -143,6 +146,10 @@ class CafeGame extends Component {
 			this.dispose();
 			Audio.playSound_("click");
 			System.root.add(new CafeGame(pack, width, height));
+		}));
+
+		_disposer.add(System.root.get(OverallScore).scoreFirst.changed.connect((to, _) -> {
+			_points.setScore(to);
 		}));
 
 		this._disposer.add(_playButton.click.connect(() -> {
@@ -203,6 +210,7 @@ class CafeGame extends Component {
 	private var _reachY:Float = 0.0;
 	private var _cooldown:Float = 0.0;
 	private var _isWarning = false;
+	private var _points:Points;
 
 	private static inline var TIME_DURATION = 30;
 	private static inline var MAX_SPILL = 2;

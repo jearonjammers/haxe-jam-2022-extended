@@ -12,6 +12,9 @@ import game.runner.RunnerGame;
 class Main {
 	static function main() {
 		System.init();
+		System.pointer.down.connect((_) -> {
+			System.stage.requestFullscreen(true);
+		}).once();
 	}
 
 	public static var vueSplash = js.Lib.require("./src/components/Splash.vue");
@@ -27,7 +30,7 @@ class Main {
 		});
 		System.stage.resize.emit();
 		var bootstrap = Manifest.fromAssets("bootstrap");
-		System.loadAssetPack(bootstrap).success.connect(onDevRunnerLoaded.bind(width, height)).once();
+		System.loadAssetPack(bootstrap).success.connect(onDevCafeLoaded.bind(width, height)).once();
 	}
 
 	static function onDevTextLoaded(width:Int, height:Int, pack:AssetPack):Void {
