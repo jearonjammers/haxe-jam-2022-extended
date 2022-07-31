@@ -97,6 +97,10 @@ class Person extends Component {
 		vy2 = res2.y;
 	}
 
+	public function forceGround() {
+		this._anchor.y._ = FLOOR_Y;
+	}
+
 	public function fall(forceAngle:Bool) {
 		this.move(Idle);
 		this._anchor.y.animateTo(FLOOR_Y, 0.25, Ease.bounceOut);
@@ -133,12 +137,14 @@ class Person extends Component {
 
 		this._liquid.setXY(50, -100, 130, 0);
 		this._liquid.visible = false;
+		var itex1 = BrowserUtil.isMobile() ? "runner/instructMove_mob" : "runner/instructMove";
+		var itex2 = BrowserUtil.isMobile() ? "runner/instructSurf_mob" : "runner/instructSurf";
 
 		this._root //
 			.addChild(new Entity() //
-				.add(_instruct1 = new ImageSprite(pack.getTexture("runner/instructMove")).setXY(120, -300))) //
+				.add(_instruct1 = new ImageSprite(pack.getTexture(itex1)).setXY(120, -300))) //
 			.addChild(new Entity() //
-				.add(_instruct2 = new ImageSprite(pack.getTexture("runner/instructSurf")).setXY(120, -340))); //
+				.add(_instruct2 = new ImageSprite(pack.getTexture(itex2)).setXY(120, -340))); //
 		_instruct2.visible = false;
 		this._root.add(new Script()).get(Script).run(new Sequence([new Delay(2), new CallFunction(handleInstruct1)]));
 	}

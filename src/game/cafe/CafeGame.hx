@@ -215,5 +215,5 @@ class CafeGame extends Component {
 
 	private static inline var TIME_DURATION = 30;
 	private static inline var MAX_SPILL = 2;
-	private static inline var FILL_MAX = 5;
+	private static inline var FILL_MAX = 13;
 }

@@ -34,7 +34,7 @@ class Controller extends Component {
 			var rootSpr = _root.get(Sprite);
 			var local = rootSpr.localXY(this._viewX, this._viewY);
 			var dist = _down.distanceTo(local.x, local.y);
-			if (dist > 20) {
+			if (dist > 40) {
 				var angleDeg = Math.atan2(_down.y - local.y, _down.x - local.x) * 180 / Math.PI;
 				var normDeg = MathUtil.normDegrees(angleDeg);
 				if (isUp(normDeg)) {

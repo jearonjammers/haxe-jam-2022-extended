@@ -62,7 +62,8 @@ class EnemyBird extends Enemy {
 		birdWing.rotation.behavior = new Sine(30, -20, 0.5);
 
 		if (index == 0) {
-			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/instructCrouch")).setXY(-220, 100)));
+			var tex = BrowserUtil.isMobile() ? "runner/instructCrouch_mob" : "runner/instructCrouch";
+			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, 100)));
 		}
 	}
 

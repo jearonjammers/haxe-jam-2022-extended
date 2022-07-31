@@ -59,7 +59,8 @@ class EnemyWorm extends Enemy {
 		_worm.rotation.behavior = new Sine(-15, 15, 1);
 
 		if (index == 0) {
-			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/instructJump")).setXY(-220, -470)));
+			var tex = BrowserUtil.isMobile() ? "runner/instructJump_mob" : "runner/instructJump";
+			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, -470)));
 		}
 	}
 

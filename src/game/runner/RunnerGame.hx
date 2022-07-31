@@ -105,6 +105,7 @@ class RunnerGame extends Component {
 	}
 
 	private function handleSuccess() {
+		_person.forceGround();
 		_person.sturdy();
 		_sun.owner.add(new CafeSun(_pack, 440, 90));
 		_sun.dispose();
@@ -285,7 +286,7 @@ class RunnerGame extends Component {
 	private var _crouchIndex = 0;
 
 	private function addBird(xPos:Float) {
-		_sceneryMid.addChild(new Entity().add(new EnemyBird(_pack, _crouchIndex++, xPos, 525)));
+		_sceneryMid.addChild(new Entity().add(new EnemyBird(_pack, _crouchIndex++, xPos, 495)));
 	}
 
 	private var _jumpIndex = 0;
