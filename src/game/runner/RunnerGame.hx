@@ -145,6 +145,7 @@ class RunnerGame extends Component {
 		_disposer = new Disposer();
 		_person.move(Walk);
 
+		System.root.get(OverallScore).resetSecond();
 		_disposer.add(System.root.get(OverallScore).scoreSecond.changed.connect((to, _) -> {
 			_points.setScore(to + System.root.get(OverallScore).scoreFirst._);
 		}));

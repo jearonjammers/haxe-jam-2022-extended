@@ -1,5 +1,7 @@
 package game.score;
 
+import flambe.display.TextSprite;
+import flambe.display.Font;
 import flambe.display.Sprite;
 import flambe.animation.Sine;
 import flambe.animation.Ease;
@@ -27,6 +29,9 @@ class ScoreGame extends Component {
 	private function init(pack:AssetPack, width:Float, height:Float) {
 		Audio.stop_();
 		Audio.playSound_("sfx/win");
+		var score = System.root.get(OverallScore);
+		var font = new Font(pack, "testfont");
+
 		var x = width / 2;
 		var scoreTop:Sprite;
 		var scoreBottom:Sprite;
@@ -35,7 +40,10 @@ class ScoreGame extends Component {
 			.addChild(new Entity() //
 				.add(new ImageSprite(pack.getTexture("score/scoreBottomBubble")) //
 					.centerAnchor() //
-					.setXY(x, 476))) //
+					.setXY(x, 476)) //
+				.addChild(new Entity() //
+					.add(new TextSprite(font, score.currentScore).setScale(3.5) //
+						.setXY(70, 0)))) //
 			.addChild(new Entity() //
 				.add(scoreBottom = new ImageSprite(pack.getTexture("score/scoreBottom")) //
 					.centerAnchor() //
@@ -43,7 +51,11 @@ class ScoreGame extends Component {
 			.addChild(new Entity() //
 				.add(new ImageSprite(pack.getTexture("score/scoreTopBubble")) //
 					.centerAnchor() //
-					.setXY(x, 923))) //
+					.setXY(x, 923)) //
+				.addChild(new Entity() //
+					.add(new TextSprite(font, score.bestScore) //
+						.setXY(54, -4) //
+						.setScale(2.75)))) //
 			.addChild(new Entity() //
 				.add(scoreTop = new ImageSprite(pack.getTexture("score/scoreTop")) //
 					.centerAnchor() //
@@ -59,10 +71,10 @@ class ScoreGame extends Component {
 		scoreBottom.rotation.behavior = new Sine(5, -5, 4);
 		scoreBottom.scaleX.behavior = new Sine(1, 0.9, 4);
 		scoreBottom.scaleY.behavior = new Sine(1, 0.9, 4);
-		scoreBottom.alpha._ = 0;
 
 		_homeButton.click.connect(() -> {
 			this.dispose();
+			score.tally();
 			Audio.playSound_("click");
 			System.root.get(DrinkPercent).reset();
 			System.root.add(new CafeGame(pack, width, height));

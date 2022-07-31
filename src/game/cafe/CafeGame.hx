@@ -148,6 +148,7 @@ class CafeGame extends Component {
 			System.root.add(new CafeGame(pack, width, height));
 		}));
 
+		System.root.get(OverallScore).resetFirst();
 		_disposer.add(System.root.get(OverallScore).scoreFirst.changed.connect((to, _) -> {
 			_points.setScore(to);
 		}));
