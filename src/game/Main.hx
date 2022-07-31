@@ -13,13 +13,13 @@ class Main {
 	static function main() {
 		System.init();
 		System.pointer.down.connect((_) -> {
-			System.stage.requestFullscreen(true);
+			// System.stage.requestFullscreen(true);
 		}).once();
 	}
 
 	public static var vueSplash = js.Lib.require("./src/components/Splash.vue");
 
-	@:expose static function start(width:Int, height:Int, onResize:Void->Void):Void {
+	@:expose static function start(width:Int, height:Int):Void {
 		var container = new Container(width, height);
 		container.visible = false;
 		System.root.add(container);
@@ -27,7 +27,6 @@ class Main {
 		System.root.add(new OverallScore());
 		System.stage.resize.connect(() -> {
 			container.setSize(System.stage.width, System.stage.height);
-			onResize();
 		});
 		System.stage.resize.emit();
 		var bootstrap = Manifest.fromAssets("bootstrap");

@@ -33,11 +33,7 @@ export default {
     const sizer = flambe.game.Container.getSize;
     window.addEventListener("resize", this.layoutScale.bind(this, sizer));
     this.layoutScale(sizer);
-    flambe.game.Main.start(this.gameWidth, this.gameHeight, () => {
-      this.$nextTick(() => {
-        this.layoutScale(sizer);
-      });
-    });
+    flambe.game.Main.start(this.gameWidth, this.gameHeight);
   },
   methods: {
     layoutScale(sizer) {
