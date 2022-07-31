@@ -19,7 +19,7 @@ class Main {
 
 	public static var vueSplash = js.Lib.require("./src/components/Splash.vue");
 
-	@:expose static function start(width:Int, height:Int):Void {
+	@:expose static function start(width:Int, height:Int, onResize:Void->Void):Void {
 		var container = new Container(width, height);
 		container.visible = false;
 		System.root.add(container);
@@ -27,6 +27,7 @@ class Main {
 		System.root.add(new OverallScore());
 		System.stage.resize.connect(() -> {
 			container.setSize(System.stage.width, System.stage.height);
+			onResize();
 		});
 		System.stage.resize.emit();
 		var bootstrap = Manifest.fromAssets("bootstrap");
