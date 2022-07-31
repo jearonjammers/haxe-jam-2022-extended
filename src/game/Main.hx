@@ -13,7 +13,7 @@ class Main {
 	static function main() {
 		System.init();
 		System.pointer.down.connect((_) -> {
-			System.stage.requestFullscreen(true);
+			// System.stage.requestFullscreen(true);
 		}).once();
 	}
 
@@ -30,7 +30,7 @@ class Main {
 		});
 		System.stage.resize.emit();
 		var bootstrap = Manifest.fromAssets("bootstrap");
-		System.loadAssetPack(bootstrap).success.connect(onBootstrapLoaded.bind(width, height)).once();
+		System.loadAssetPack(bootstrap).success.connect(onDevRunnerLoaded.bind(width, height)).once();
 	}
 
 	static function onDevTextLoaded(width:Int, height:Int, pack:AssetPack):Void {

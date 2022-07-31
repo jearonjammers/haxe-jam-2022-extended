@@ -86,10 +86,11 @@ class RunnerGame extends Component {
 	}
 
 	private inline function handleEnemy(dt:Float, percent:Float) {
-		if (!_hasWon && !_hasLost && percent < 0.8) {
+		if (!_hasWon && !_hasLost && percent > 0.2) {
 			_enemyElapsed += dt;
 			if (_enemyElapsed >= _enemyDuration) {
 				_enemyElapsed = 0;
+				trace("makeEnemt");
 				_enemyDuration = ENEMY_DUR_MIN + Math.random() * (ENEMY_DUR_MAX - ENEMY_DUR_MIN);
 				var xpos = -_sceneryMid.get(Sprite).x._ + 2400;
 				addEnemy(xpos);
@@ -268,6 +269,7 @@ class RunnerGame extends Component {
 
 	private function addEnemy(xPos:Float) {
 		var type = Math.floor(Math.random() * 3);
+		type = 2;
 		switch type {
 			case 0:
 				addWorm(xPos);
@@ -278,9 +280,9 @@ class RunnerGame extends Component {
 		}
 	}
 
-	private static inline var ENEMY_DUR_START = 0.5;
-	private static inline var ENEMY_DUR_MIN = 2;
-	private static inline var ENEMY_DUR_MAX = 6;
+	private static inline var ENEMY_DUR_START = 1;
+	private static inline var ENEMY_DUR_MIN = 3;
+	private static inline var ENEMY_DUR_MAX = 5;
 
 	private var _root:Entity;
 	private var _bg:RGBSprite;

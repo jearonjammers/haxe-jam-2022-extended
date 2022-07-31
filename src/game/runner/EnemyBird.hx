@@ -1,5 +1,6 @@
 package game.runner;
 
+import flambe.display.FillSprite;
 import flambe.animation.Sine;
 import flambe.math.Rectangle;
 import flambe.display.Sprite;
@@ -29,6 +30,10 @@ class EnemyBird extends Component {
 		}
 	}
 
+	public function hits(x :Float, y :Float) : Bool {
+		return _rect1.contains(x, y) || _rect2.contains(x, y);
+	}
+
 	private function init(pack:AssetPack, index:Int, x:Float, y:Float) {
 		Audio.playSound_("sfx/runner/bird");
 		var anchorSprite = new Sprite();
@@ -49,6 +54,8 @@ class EnemyBird extends Component {
 				.addChild(new Entity().add(birdHat //
 					.setXY(-30, -135) //
 					.setAnchor(47, 230)))); //
+		// .addChild(new Entity().add(new FillSprite(0xff0000, _rect1.width, _rect1.height).setXY(_rect1.x, _rect1.y).setAlpha(0.5))) //
+		// .addChild(new Entity().add(new FillSprite(0xff0000, _rect2.width, _rect2.height).setXY(_rect2.x, _rect2.y).setAlpha(0.5)))); //
 
 		birdFeet.rotation.behavior = new Sine(-15, 15, 0.5);
 		anchorSprite.rotation.behavior = new Sine(-5, 5);
@@ -62,4 +69,7 @@ class EnemyBird extends Component {
 
 	private var _root:Entity;
 	private var _elapsed = 0.0;
+
+	public var _rect1:Rectangle = new Rectangle(-200, -210, 280, 200);
+	public var _rect2:Rectangle = new Rectangle(-60, -10, 100, 100);
 }

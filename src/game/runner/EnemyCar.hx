@@ -1,5 +1,7 @@
 package game.runner;
 
+import flambe.display.FillSprite;
+import flambe.math.Rectangle;
 import flambe.animation.Sine;
 import flambe.display.Sprite;
 import flambe.display.ImageSprite;
@@ -28,6 +30,10 @@ class EnemyCar extends Component {
 		}
 	}
 
+	public function hits(x :Float, y :Float) : Bool {
+		return _rect1.contains(x, y) || _rect2.contains(x, y);
+	}
+
 	private function init(pack:AssetPack, index:Int, x:Float, y:Float) {
 		Audio.playSound_("sfx/runner/car");
 		var car = new ImageSprite(pack.getTexture("runner/car/car"));
@@ -50,6 +56,8 @@ class EnemyCar extends Component {
 			.addChild(new Entity().add(carWheel2 //
 				.setXY(139, 0) //
 				.centerAnchor())); //
+			// .addChild(new Entity().add(new FillSprite(0xff0000, _rect2.width, _rect2.height).setXY(_rect2.x, _rect2.y).setAlpha(0.5))) //
+			// .addChild(new Entity().add(new FillSprite(0xff0000, _rect1.width, _rect1.height).setXY(_rect1.x, _rect1.y).setAlpha(0.5))); //
 
 		var time = 0.25;
 		car.anchorY.behavior = new Sine(220, 210, time);
@@ -64,4 +72,7 @@ class EnemyCar extends Component {
 
 	private var _root:Entity;
 	private var _elapsed = 0.0;
+
+	public var _rect1:Rectangle = new Rectangle(-80, -170, 220, 80); //top
+	public var _rect2:Rectangle = new Rectangle(-190, -90, 420, 100); //bottom
 }
