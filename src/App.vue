@@ -34,7 +34,9 @@ export default {
     window.addEventListener("resize", this.layoutScale.bind(this, sizer));
     this.layoutScale(sizer);
     flambe.game.Main.start(this.gameWidth, this.gameHeight, () => {
-      this.layoutScale(sizer);
+      this.$nextTick(() => {
+        this.layoutScale(sizer);
+      });
     });
   },
   methods: {
