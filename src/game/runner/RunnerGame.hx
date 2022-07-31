@@ -18,6 +18,8 @@ import flambe.asset.AssetPack;
 import flambe.Entity;
 import flambe.Component;
 
+using game.SpriteUtil;
+
 class RunnerGame extends Component {
 	public function new(pack:AssetPack, width:Float, height:Float) {
 		_pack = pack;
@@ -39,10 +41,10 @@ class RunnerGame extends Component {
 			handleSuccess();
 		}
 		if (!_hasWon) {
-			_distWorld += dt * 450;
+			_distWorld += dt * 600;
 		} else {
-			_distWorld += dt * 225;
-			_distPerson += dt * 225;
+			_distWorld += dt * 300;
+			_distPerson += dt * 300;
 		}
 		if (_person.movetype == Surf) {
 			_surfDist += 10 * dt;
@@ -74,6 +76,11 @@ class RunnerGame extends Component {
 			]));
 		}
 		handleEnemy(dt, dp.percent);
+
+		if (checkXY(_person.vx1, _person.vy1, _person.vx2, _person.vy2)) {
+			handleFail();
+			_person.fall(true);
+		}
 	}
 
 	override function onAdded() {
@@ -86,7 +93,7 @@ class RunnerGame extends Component {
 	}
 
 	private inline function handleEnemy(dt:Float, percent:Float) {
-		if (!_hasWon && !_hasLost && percent > 0.2) {
+		if (!_hasWon && !_hasLost && percent > 0.1) {
 			_enemyElapsed += dt;
 			if (_enemyElapsed >= _enemyDuration) {
 				_enemyElapsed = 0;
@@ -103,6 +110,17 @@ class RunnerGame extends Component {
 		_sun.dispose();
 		var xpos = -_sceneryMid.get(Sprite).x._ + 1920;
 		_sceneryMid.addChild(new Entity().add(new ImageSprite(_pack.getTexture("runner/job")).setXY(xpos, 403)));
+	}
+
+	private function handleFail() {
+		_hasLost = true;
+		Audio.playSound_("sfx/cafe/partyHarder");
+		var lostSpr = new ImageSprite(_pack.getTexture("runner/lost")).centerAnchor().setXY(1920 / 2, 1080);
+		lostSpr.y.animateTo(1080 / 2, 0.5, Ease.backOut);
+		lostSpr.rotation.behavior = new Sine(-5, 5, 4);
+		lostSpr.scaleX.behavior = new Sine(0.9, 1, 4);
+		lostSpr.scaleY.behavior = new Sine(0.9, 1, 4);
+		this._root.addChild(new Entity().add(lostSpr));
 	}
 
 	private function init(width:Float, height:Float) {
@@ -158,14 +176,9 @@ class RunnerGame extends Component {
 		}));
 
 		_disposer.add(_person.hasFallen.connect(() -> {
-			_hasLost = true;
-			Audio.playSound_("sfx/cafe/partyHarder");
-			var lostSpr = new ImageSprite(_pack.getTexture("runner/lost")).centerAnchor().setXY(1920 / 2, 1080);
-			lostSpr.y.animateTo(1080 / 2, 0.5, Ease.backOut);
-			lostSpr.rotation.behavior = new Sine(-5, 5, 4);
-			lostSpr.scaleX.behavior = new Sine(0.9, 1, 4);
-			lostSpr.scaleY.behavior = new Sine(0.9, 1, 4);
-			this._root.addChild(new Entity().add(lostSpr));
+			if (!_hasLost) {
+				handleFail();
+			}
 		}).once());
 
 		_disposer.add(_controller.state.changed.connect((s, _) -> {
@@ -238,12 +251,17 @@ class RunnerGame extends Component {
 		addBushFront(13300);
 	}
 
-	private function checkXY(x:Float, y:Float):Bool {
-		// _sceneryMid
+	private function checkXY(vx1:Float, vy1:Float, vx2:Float, vy2:Float):Bool {
+		var res1 = _sceneryMid.get(Sprite).localXY(vx1, vy1);
+		var lx1 = res1.x;
+		var ly1 = res1.y;
+		var res2 = _sceneryMid.get(Sprite).localXY(vx2, vy2);
+		var lx2 = res2.x;
+		var ly2 = res2.y;
 		var e = _sceneryMid.firstChild;
 		while (e != null) {
 			var enemy = e.getFromChildren(Enemy);
-			if (enemy.hits(x, y)) {
+			if (enemy != null && enemy.hits(lx1, ly1, lx2, ly2)) {
 				return true;
 			}
 			e = e.next;

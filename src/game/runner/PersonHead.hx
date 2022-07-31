@@ -8,6 +8,8 @@ import flambe.Entity;
 import flambe.Component;
 
 class PersonHead extends Component {
+	public var sprite:Sprite;
+
 	public function new(pack:AssetPack) {
 		this.init(pack);
 	}
@@ -22,7 +24,7 @@ class PersonHead extends Component {
 
 	private function init(pack:AssetPack) {
 		this._root = new Entity() //
-			.add(new ImageSprite(pack.getTexture("runner/body/head")) //
+			.add(sprite = new ImageSprite(pack.getTexture("runner/body/head")) //
 				.setXY(0, -96) //
 				.setAnchor(63, 148)); //
 	}
@@ -30,15 +32,15 @@ class PersonHead extends Component {
 	public function move(type:PersonMoveType, time:Float) {
 		switch type {
 			case Jump:
-				_root.get(Sprite).rotation.behavior = new Sine(-40, -30, time * 2);
+				sprite.rotation.behavior = new Sine(-40, -30, time * 2);
 			case Crouch:
-				_root.get(Sprite).rotation.behavior = new Sine(-34, -4, time / 2);
+				sprite.rotation.behavior = new Sine(-34, -4, time / 2);
 			case Walk:
-				_root.get(Sprite).rotation.behavior = new Sine(-13, -4, time / 2);
+				sprite.rotation.behavior = new Sine(-13, -4, time / 2);
 			case Surf:
-				_root.get(Sprite).rotation.behavior = new Sine(4, -4, time);
+				sprite.rotation.behavior = new Sine(4, -4, time);
 			case Idle:
-				_root.get(Sprite).rotation.behavior = new Sine(4, -4, time);
+				sprite.rotation.behavior = new Sine(4, -4, time);
 		}
 	}
 

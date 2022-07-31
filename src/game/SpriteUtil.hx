@@ -12,5 +12,10 @@ class SpriteUtil {
 		return SPRITE_SCRATCH;
 	}
 
+	public static function viewXY(sprite:Sprite, viewX:Float, viewY:Float):Point {
+		sprite.getViewMatrix().transform(0, 0, SPRITE_SCRATCH);
+		return SPRITE_SCRATCH;
+	}
+
 	private static var SPRITE_SCRATCH:Point = new Point();
 }

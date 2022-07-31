@@ -31,8 +31,8 @@ class EnemyWorm extends Enemy {
 		}
 	}
 
-	override public function hits(x:Float, y:Float):Bool {
-		return _rect1.contains(x + _x, y + _y);
+	override public function hits(x:Float, y:Float, width:Float, height:Float):Bool {
+		return Sprite.hitTest(this._root, x, y) != null;
 	}
 
 	private function init(pack:AssetPack, index:Int) {
@@ -41,24 +41,25 @@ class EnemyWorm extends Enemy {
 		var anchorY = 230;
 		var tex = pack.getTexture("runner/worm/worm");
 		this._root = new Entity() //
-			.add(new Sprite().setXY(_x, _y)) //
-			.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHole")) //
-				.centerAnchor())) //
-			.addChild(new Entity() //
-				.add(_clip = new Sprite()) //
-				.addChild(new Entity().add(_worm = new ImageSprite(pack.getTexture("runner/worm/worm")) //
-					.setXY(0, 20) //
-					.setAnchor(anchorX, anchorY)))) //
-			.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHoleClip")) //
-				.setAnchor(128.5, -11))); //
-		// .addChild(new Entity().add(new FillSprite(0xff0000, _rect1.width, _rect1.height).setXY(_rect1.x, _rect1.y).setAlpha(0.5))); //
+			.addChild(_hittable = new Entity().add(new Sprite().setXY(_x, _y)) //
+				.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHole")) //
+					.centerAnchor())) //
+				.addChild(new Entity() //
+					.add(_clip = new Sprite()) //
+					.addChild(new Entity().add(_worm = new ImageSprite(pack.getTexture("runner/worm/worm")) //
+						.setXY(0, 20) //
+						.setAnchor(anchorX, anchorY)))) //
+				.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHoleClip")) //
+					.setAnchor(128.5, -11)))) //
+			.addChild(_instructions = new Entity().add(new Sprite().setXY(_x, _y))); //
+
 		_clip.scissor = new Rectangle(-(anchorX + PADDING), -(anchorY + PADDING), tex.width + PADDING * 2, (tex.height + PADDING) - CLIP_LENGTH);
 
 		// _worm.y.behavior = new Sine(0, 300, 2);
 		_worm.rotation.behavior = new Sine(-15, 15, 1);
 
 		if (index == 0) {
-			this._root.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/instructJump")).setXY(-220, -470)));
+			// _instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/instructJump")).setXY(-220, -470)));
 		}
 	}
 
@@ -68,8 +69,6 @@ class EnemyWorm extends Enemy {
 	private var _clip:Sprite;
 	private var _worm:Sprite;
 	private var _elapsed = 0.0;
-
-	public var _rect1:Rectangle = new Rectangle(-60, -190, 100, 200);
 
 	private static inline var PADDING = 60;
 	private static inline var CLIP_LENGTH = 30;

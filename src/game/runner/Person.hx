@@ -14,9 +14,15 @@ import flambe.asset.AssetPack;
 import flambe.Entity;
 import flambe.Component;
 
+using game.SpriteUtil;
+
 class Person extends Component {
 	public var movetype:PersonMoveType = PersonMoveType.Crouch;
 	public var hasFallen:Signal0 = new Signal0();
+	public var vx1:Float = 0;
+	public var vy1:Float = 0;
+	public var vx2:Float = 0;
+	public var vy2:Float = 0;
 
 	public function new(pack:AssetPack) {
 		this.init(pack);
@@ -80,9 +86,23 @@ class Person extends Component {
 		handleRotation();
 		if (_anchor.rotation._ == -MAX_ANGLE || _anchor.rotation._ == MAX_ANGLE) {
 			hasFallen.emit();
-			this.move(Idle);
-			this._anchor.y.animateTo(FLOOR_Y, 0.25, Ease.bounceOut);
-			_hasFallen = true;
+			this.fall(false);
+		}
+
+		var res1 = _torso.sprite.viewXY(0, 0);
+		vx1 = res1.x;
+		vy1 = res1.y;
+		var res2 = _head.sprite.viewXY(0, 0);
+		vx2 = res2.x;
+		vy2 = res2.y;
+	}
+
+	public function fall(forceAngle:Bool) {
+		this.move(Idle);
+		this._anchor.y.animateTo(FLOOR_Y, 0.25, Ease.bounceOut);
+		_hasFallen = true;
+		if (forceAngle) {
+			_anchor.rotation.animateTo(-MAX_ANGLE, 1, Ease.bounceOut);
 		}
 	}
 

@@ -7,6 +7,8 @@ import flambe.Entity;
 import flambe.Component;
 
 class PersonTorso extends Component {
+	public var sprite :Sprite;
+
 	public function new(pack:AssetPack, x :Float, y :Float) {
 		this.init(pack, x, y);
 	}
@@ -21,7 +23,7 @@ class PersonTorso extends Component {
 
 	private function init(pack:AssetPack, x :Float, y :Float) {
 		this._root = new Entity() //
-			.add(new Sprite().setXY(x, y)) //
+			.add(sprite = new Sprite().setXY(x, y)) //
 			.addChild(new Entity() //
 				.add(_arm1 = new PersonArm(pack, false)))
 			.addChild(new Entity() //
