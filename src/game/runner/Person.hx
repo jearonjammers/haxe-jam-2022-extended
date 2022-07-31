@@ -140,8 +140,7 @@ class Person extends Component {
 			.addChild(new Entity() //
 				.add(_instruct2 = new ImageSprite(pack.getTexture("runner/instructSurf")).setXY(120, -340))); //
 		_instruct2.visible = false;
-
-		this._root.add(new Script()).get(Script).run(new Sequence([new Delay(3), new CallFunction(handleInstruct1)]));
+		this._root.add(new Script()).get(Script).run(new Sequence([new Delay(2), new CallFunction(handleInstruct1)]));
 	}
 
 	private function handleInstruct1():Void {
@@ -149,6 +148,7 @@ class Person extends Component {
 			_instruct1.visible = false;
 			_instruct2.visible = true;
 			_hasHandledInstruct1 = true;
+			this._root.add(new Script()).get(Script).run(new Sequence([new Delay(2), new CallFunction(handleInstruct2)]));
 		}
 	}
 
@@ -185,7 +185,6 @@ class Person extends Component {
 				_lowerPivot.anchorY.behavior = new Sine(0, 0, time / 2);
 				_upperPivot.rotation.behavior = new Sine(-2, 2, time);
 				this._liquid.visible = true;
-				handleInstruct2();
 			case Idle:
 				_lowerPivot.anchorY.behavior = new Sine(0, 0, time / 2);
 				_upperPivot.rotation.behavior = new Sine(-2, 2, time);
