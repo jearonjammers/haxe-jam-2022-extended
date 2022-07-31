@@ -8,11 +8,12 @@ import flambe.display.Sprite;
 import flambe.display.ImageSprite;
 import flambe.asset.AssetPack;
 import flambe.Entity;
-import flambe.Component;
 
-class EnemyWorm extends Component {
+class EnemyWorm extends Enemy {
 	public function new(pack:AssetPack, index:Int, x:Float, y:Float) {
-		this.init(pack, index, x, y);
+		_x = x;
+		_y = y;
+		this.init(pack, index);
 	}
 
 	override function onAdded() {
@@ -30,17 +31,17 @@ class EnemyWorm extends Component {
 		}
 	}
 
-	public function hits(x :Float, y :Float) : Bool {
-		return _rect1.contains(x, y);
+	override public function hits(x:Float, y:Float):Bool {
+		return _rect1.contains(x + _x, y + _y);
 	}
 
-	private function init(pack:AssetPack, index:Int, x:Float, y:Float) {
+	private function init(pack:AssetPack, index:Int) {
 		Audio.playSound_("sfx/runner/worm");
 		var anchorX = 77;
 		var anchorY = 230;
 		var tex = pack.getTexture("runner/worm/worm");
 		this._root = new Entity() //
-			.add(new Sprite().setXY(x, y)) //
+			.add(new Sprite().setXY(_x, _y)) //
 			.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHole")) //
 				.centerAnchor())) //
 			.addChild(new Entity() //
@@ -61,6 +62,8 @@ class EnemyWorm extends Component {
 		}
 	}
 
+	private var _x:Float;
+	private var _y:Float;
 	private var _root:Entity;
 	private var _clip:Sprite;
 	private var _worm:Sprite;

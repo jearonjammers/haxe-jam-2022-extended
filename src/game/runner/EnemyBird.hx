@@ -7,11 +7,12 @@ import flambe.display.Sprite;
 import flambe.display.ImageSprite;
 import flambe.asset.AssetPack;
 import flambe.Entity;
-import flambe.Component;
 
-class EnemyBird extends Component {
+class EnemyBird extends Enemy {
 	public function new(pack:AssetPack, index:Int, x:Float, y:Float) {
-		this.init(pack, index, x, y);
+		_x = x;
+		_y = y;
+		this.init(pack, index);
 	}
 
 	override function onAdded() {
@@ -30,11 +31,11 @@ class EnemyBird extends Component {
 		}
 	}
 
-	public function hits(x :Float, y :Float) : Bool {
-		return _rect1.contains(x, y) || _rect2.contains(x, y);
+	override public function hits(x:Float, y:Float):Bool {
+		return _rect1.contains(x + _x, y + _y) || _rect2.contains(x + _x, y + _y);
 	}
 
-	private function init(pack:AssetPack, index:Int, x:Float, y:Float) {
+	private function init(pack:AssetPack, index:Int) {
 		Audio.playSound_("sfx/runner/bird");
 		var anchorSprite = new Sprite();
 		var birdFeet = new ImageSprite(pack.getTexture("runner/bird/birdFeet"));
@@ -42,7 +43,7 @@ class EnemyBird extends Component {
 		var birdWing = new ImageSprite(pack.getTexture("runner/bird/birdWing"));
 		var birdHat = new ImageSprite(pack.getTexture("runner/bird/birdHat"));
 		this._root = new Entity() //
-			.add(new Sprite().setXY(x, y)) //
+			.add(new Sprite().setXY(_x, _y)) //
 			.addChild(new Entity().add(anchorSprite = new Sprite()) //
 				.addChild(new Entity().add(birdFeet //
 					.setAnchor(8, 12).setXY(50, 50))) //
@@ -67,6 +68,8 @@ class EnemyBird extends Component {
 		}
 	}
 
+	private var _x:Float;
+	private var _y:Float;
 	private var _root:Entity;
 	private var _elapsed = 0.0;
 

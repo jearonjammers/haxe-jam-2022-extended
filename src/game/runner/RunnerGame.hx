@@ -90,7 +90,6 @@ class RunnerGame extends Component {
 			_enemyElapsed += dt;
 			if (_enemyElapsed >= _enemyDuration) {
 				_enemyElapsed = 0;
-				trace("makeEnemt");
 				_enemyDuration = ENEMY_DUR_MIN + Math.random() * (ENEMY_DUR_MAX - ENEMY_DUR_MIN);
 				var xpos = -_sceneryMid.get(Sprite).x._ + 2400;
 				addEnemy(xpos);
@@ -239,6 +238,20 @@ class RunnerGame extends Component {
 		addBushFront(13300);
 	}
 
+	private function checkXY(x:Float, y:Float):Bool {
+		// _sceneryMid
+		var e = _sceneryMid.firstChild;
+		while (e != null) {
+			var enemy = e.getFromChildren(Enemy);
+			if (enemy.hits(x, y)) {
+				return true;
+			}
+			e = e.next;
+		}
+
+		return false;
+	}
+
 	private function addBushBack(xPos:Float) {
 		_sceneryBack.addChild(new Entity().add(new Bush(_pack, xPos, 729)));
 	}
@@ -269,7 +282,6 @@ class RunnerGame extends Component {
 
 	private function addEnemy(xPos:Float) {
 		var type = Math.floor(Math.random() * 3);
-		type = 2;
 		switch type {
 			case 0:
 				addWorm(xPos);
