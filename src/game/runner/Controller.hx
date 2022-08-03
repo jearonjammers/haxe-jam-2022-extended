@@ -1,6 +1,5 @@
 package game.runner;
 
-import flambe.display.Sprite;
 import flambe.math.Point;
 import flambe.input.PointerEvent;
 import flambe.util.Value;
@@ -31,11 +30,9 @@ class Controller extends Component {
 
 	override function onUpdate(dt:Float) {
 		if (_isDown) {
-			var rootSpr = _root.get(Sprite);
-			var local = rootSpr.localXY(this._viewX, this._viewY);
-			var dist = _down.distanceTo(local.x, local.y);
-			if (dist > 40) {
-				var angleDeg = Math.atan2(_down.y - local.y, _down.x - local.x) * 180 / Math.PI;
+			var dist = _down.distanceTo(System.pointer.x, System.pointer.y);
+			if (dist > 50) {
+				var angleDeg = Math.atan2(_down.y - System.pointer.y, _down.x - System.pointer.x) * 180 / Math.PI;
 				var normDeg = MathUtil.normDegrees(angleDeg);
 				if (isUp(normDeg)) {
 					this.state._ = Up;
@@ -89,10 +86,8 @@ class Controller extends Component {
 	private function onPointerDown(e:PointerEvent):Void {
 		if (this.state._ != Space) {
 			this.state._ = Space;
-			var rootSpr = _root.get(Sprite);
-			var local = rootSpr.localXY(this._viewX, this._viewY);
-			_down.x = local.x;
-			_down.y = local.y;
+			_down.x = e.viewX;
+			_down.y = e.viewY;
 			_isDown = true;
 		}
 	}
@@ -104,7 +99,6 @@ class Controller extends Component {
 
 	private function init() {
 		this._root = new Entity();
-		this._root.add(new Sprite());
 		_disposer = new Disposer();
 		_disposer.add(System.keyboard.down.connect(onkeyDown));
 		_disposer.add(System.keyboard.up.connect(onkeyUp));
