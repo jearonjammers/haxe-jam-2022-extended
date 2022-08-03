@@ -35,6 +35,10 @@ class RGBSprite extends Sprite {
 		_percent = FMath.clamp(p, 0, 1);
 	}
 
+	public function getPercent():Float {
+		return _percent;
+	}
+
 	private function r():Int {
 		var p1 = _percent;
 		var p2 = 1 - p1;

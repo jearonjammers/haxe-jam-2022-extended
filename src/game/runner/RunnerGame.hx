@@ -246,11 +246,22 @@ class RunnerGame extends Component {
 		addTreeBack(13000);
 		addBushBack(14100);
 		addBushBack(15900);
+		addBushBack(17900);
+		addTreeBack(19200);
+		addTreeBack(23200);
+		addTreeBack(27200);
+		addTreeBack(31200);
 		addBushFront(0);
 		addBushFront(1800);
 		addBushFront(4300);
 		addBushFront(7300);
 		addBushFront(13300);
+		addBushFront(15000);
+		addBushFront(19300);
+		addBushFront(24300);
+		addBushFront(26300);
+		addBushFront(28300);
+		addBushFront(29300);
 	}
 
 	private function checkXY(vx1:Float, vy1:Float, vx2:Float, vy2:Float):Bool {
