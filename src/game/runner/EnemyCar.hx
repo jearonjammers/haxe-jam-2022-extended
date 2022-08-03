@@ -25,7 +25,7 @@ class EnemyCar extends Enemy {
 
 	override function onUpdate(dt:Float) {
 		this._hittable.get(Sprite).x._ -= 500 * dt;
-		this._instructions.get(Sprite).x._ -= 500 * dt;
+		this._other.get(Sprite).x._ -= 500 * dt;
 		_elapsed += dt;
 		if (_elapsed > 3) {
 			this.owner.dispose();
@@ -44,7 +44,7 @@ class EnemyCar extends Enemy {
 		var carWheel1 = new ImageSprite(pack.getTexture("runner/car/carWheel"));
 		var carWheel2 = new ImageSprite(pack.getTexture("runner/car/carWheel"));
 		this._root = new Entity() //
-			.addChild(_hittable = new Entity().add(new Sprite().setAnchor(0, 30).setXY(_x, _y)) //
+			.addChild(_other = new Entity().add(new Sprite().setAnchor(0, 30).setXY(_x, _y))
 				.addChild(new Entity().add(car //
 					.setAnchor(226, 220).setXY(0, 0))) //
 				.addChild(new Entity().add(carEye //
@@ -58,7 +58,11 @@ class EnemyCar extends Enemy {
 				.addChild(new Entity().add(carWheel2 //
 					.setXY(139, 0) //
 					.centerAnchor()))) //
-			.addChild(_instructions = new Entity().add(new Sprite().setAnchor(0, 30).setXY(_x, _y))); //
+			.addChild(_hittable = new Entity().add(new Sprite().setAnchor(0, 30).setXY(_x, _y)) //
+				.addChild(new Entity() //
+					.add(new FillSprite(0xffff00, 380, 90).setXY(-180, -80).setAlpha(0))) //
+				.addChild(new Entity() //
+					.add(new FillSprite(0xffff00, 200, 110).setXY(-90, -180).setAlpha(0)))); //
 
 		var time = 0.25;
 		car.anchorY.behavior = new Sine(220, 210, time);
@@ -68,7 +72,7 @@ class EnemyCar extends Enemy {
 
 		if (index == 0) {
 			var tex = BrowserUtil.isMobile() ? "runner/instructJump_mob" : "runner/instructJump";
-			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, -470)));
+			_other.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, -470)));
 		}
 	}
 

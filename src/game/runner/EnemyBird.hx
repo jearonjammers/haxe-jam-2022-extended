@@ -25,14 +25,12 @@ class EnemyBird extends Enemy {
 
 	override function onUpdate(dt:Float) {
 		this._hittable.get(Sprite).x._ -= 400 * dt;
-		this._instructions.get(Sprite).x._ -= 400 * dt;
+		this._other.get(Sprite).x._ -= 400 * dt;
 		_elapsed += dt;
 		if (_elapsed > 4) {
 			this.owner.dispose();
 		}
 	}
-
-	
 
 	private function init(pack:AssetPack, index:Int) {
 		Audio.playSound_("sfx/runner/bird");
@@ -42,7 +40,8 @@ class EnemyBird extends Enemy {
 		var birdWing = new ImageSprite(pack.getTexture("runner/bird/birdWing"));
 		var birdHat = new ImageSprite(pack.getTexture("runner/bird/birdHat"));
 		this._root = new Entity() //
-			.addChild(_hittable = new Entity().add(new Sprite().setXY(_x, _y)) //
+
+			.addChild(_other = new Entity().add(new Sprite().setXY(_x, _y)) //
 				.addChild(new Entity().add(anchorSprite = new Sprite()) //
 					.addChild(new Entity().add(birdFeet //
 						.setAnchor(8, 12).setXY(50, 50))) //
@@ -54,7 +53,11 @@ class EnemyBird extends Enemy {
 					.addChild(new Entity().add(birdHat //
 						.setXY(-30, -135) //
 						.setAnchor(47, 230))))) //
-			.addChild(_instructions = new Entity().add(new Sprite().setXY(_x, _y))); //
+			.addChild(_hittable = new Entity().add(new Sprite().setXY(_x, _y)) //
+				.addChild(new Entity() //
+					.add(new FillSprite(0xffff00, 150, 90).setXY(-200, -140).setAlpha(0))) //
+				.addChild(new Entity() //
+					.add(new FillSprite(0xffff00, 90, 315).setXY(-50, -240).setAlpha(0)))); //
 
 		birdFeet.rotation.behavior = new Sine(-15, 15, 0.5);
 		anchorSprite.rotation.behavior = new Sine(-5, 5);
@@ -63,7 +66,7 @@ class EnemyBird extends Enemy {
 
 		if (index == 0) {
 			var tex = BrowserUtil.isMobile() ? "runner/instructCrouch_mob" : "runner/instructCrouch";
-			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, 100)));
+			_other.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, 100)));
 		}
 	}
 

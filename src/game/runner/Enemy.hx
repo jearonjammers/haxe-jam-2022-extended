@@ -10,5 +10,5 @@ class Enemy extends Component {
 	}
 
 	private var _hittable:Entity;
-	private var _instructions:Entity;
+	private var _other:Entity;
 }

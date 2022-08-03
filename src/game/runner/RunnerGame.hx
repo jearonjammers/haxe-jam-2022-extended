@@ -34,7 +34,7 @@ class RunnerGame extends Component {
 		var dp = System.root.get(DrinkPercent);
 		var sc = System.root.get(OverallScore);
 		if (dp.percent > 0) {
-			dp.percent -= dt * 0.03;
+			dp.percent -= dt * 0.022;
 			_drinkMeter.setFill(dp.percent);
 		} else if (!_hasWon) {
 			_hasWon = true;
@@ -115,7 +115,8 @@ class RunnerGame extends Component {
 
 	private function handleFail() {
 		_hasLost = true;
-		Audio.playSound_("sfx/cafe/partyHarder");
+		Audio.stop_();
+		Audio.playSound_("sfx/runner/hit");
 		var lostSpr = new ImageSprite(_pack.getTexture("runner/lost")).centerAnchor().setXY(1920 / 2, 1080);
 		lostSpr.y.animateTo(1080 / 2, 0.5, Ease.backOut);
 		lostSpr.rotation.behavior = new Sine(-5, 5, 4);

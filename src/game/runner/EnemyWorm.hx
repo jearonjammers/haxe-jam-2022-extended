@@ -40,8 +40,9 @@ class EnemyWorm extends Enemy {
 		var anchorX = 77;
 		var anchorY = 230;
 		var tex = pack.getTexture("runner/worm/worm");
+		var hitAnchor = new Sprite();
 		this._root = new Entity() //
-			.addChild(_hittable = new Entity().add(new Sprite().setXY(_x, _y)) //
+			.addChild(_other = new Entity().add(new Sprite().setXY(_x, _y)) //
 				.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHole")) //
 					.centerAnchor())) //
 				.addChild(new Entity() //
@@ -51,16 +52,21 @@ class EnemyWorm extends Enemy {
 						.setAnchor(anchorX, anchorY)))) //
 				.addChild(new Entity().add(new ImageSprite(pack.getTexture("runner/worm/wormHoleClip")) //
 					.setAnchor(128.5, -11)))) //
-			.addChild(_instructions = new Entity().add(new Sprite().setXY(_x, _y))); //
+			.addChild(_hittable = new Entity().add(new Sprite().setXY(_x, _y)) //
+				.addChild(new Entity() //
+					.add(hitAnchor) //
+					.addChild(new Entity() //
+						.add(new FillSprite(0xffff00, 65, 200).setXY(-35, -190).setAlpha(0))))); //
 
 		_clip.scissor = new Rectangle(-(anchorX + PADDING), -(anchorY + PADDING), tex.width + PADDING * 2, (tex.height + PADDING) - CLIP_LENGTH);
 
 		// _worm.y.behavior = new Sine(0, 300, 2);
+		hitAnchor.rotation.behavior = new Sine(-15, 15, 1);
 		_worm.rotation.behavior = new Sine(-15, 15, 1);
 
 		if (index == 0) {
 			var tex = BrowserUtil.isMobile() ? "runner/instructJump_mob" : "runner/instructJump";
-			_instructions.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, -470)));
+			_other.addChild(new Entity().add(new ImageSprite(pack.getTexture(tex)).setXY(-220, -470)));
 		}
 	}
 
