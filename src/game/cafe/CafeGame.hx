@@ -69,6 +69,7 @@ class CafeGame extends Component {
 				_barDrinks.toss();
 				_liquid.visible = false;
 				_cooldown = 0;
+				_thirstyArms.slam();
 			}
 
 			if (_thirstyPerson.state == Mad) {

@@ -1,5 +1,6 @@
 package game.text;
 
+import flambe.util.SignalConnection;
 import flambe.System;
 import game.runner.RunnerGame;
 import flambe.script.CallFunction;
@@ -27,6 +28,9 @@ class TextGame extends Component {
 
 	override function onRemoved() {
 		owner.removeChild(this._root);
+		if (_signal != null) {
+			_signal.dispose();
+		}
 	}
 
 	private function init(pack:AssetPack, width:Float, height:Float) {
@@ -58,7 +62,11 @@ class TextGame extends Component {
 		this._root.add(new Script()).get(Script).run(new Sequence([
 			new Delay(1),
 			new CallFunction(() -> {
-				// Audio.playSound_("sfx/text/vibrate");
+				Audio.playSound_("sfx/text/vibrate");
+				_signal = System.pointer.down.connect(_ -> {
+					this.dispose();
+					System.root.add(new RunnerGame(pack, 1920, 1080));
+				}).once();
 			}),
 			new Sequence([
 				new AnimateTo(_phone.rotation, -5, 0.125),
@@ -74,7 +82,7 @@ class TextGame extends Component {
 			]),
 			new Delay(2.5),
 			new CallFunction(() -> {
-				// Audio.playSound_("sfx/text/vibrate");
+				Audio.playSound_("sfx/text/vibrate");
 			}),
 			new Sequence([
 				new AnimateTo(_phone.rotation, -5, 0.125),
@@ -90,7 +98,7 @@ class TextGame extends Component {
 			]),
 			new Delay(2.5),
 			new CallFunction(() -> {
-				// Audio.playSound_("sfx/text/vibrate");
+				Audio.playSound_("sfx/text/vibrate");
 			}),
 			new Sequence([
 				new AnimateTo(_phone.rotation, -5, 0.125),
@@ -106,7 +114,7 @@ class TextGame extends Component {
 			]),
 			new Delay(2.5),
 			new CallFunction(() -> {
-				// Audio.playSound_("sfx/text/vibrate");
+				Audio.playSound_("sfx/text/vibrate");
 			}),
 			new Sequence([
 				new AnimateTo(_phone.rotation, -5, 0.125),
@@ -135,4 +143,5 @@ class TextGame extends Component {
 	private var _text2:Sprite;
 	private var _text3:Sprite;
 	private var _text4:Sprite;
+	private var _signal:SignalConnection = null;
 }

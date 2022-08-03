@@ -16,6 +16,7 @@ using game.SpriteUtil;
 
 class ThirstyArms extends Component {
 	public static var INVALID_REACH = 99999;
+
 	public var isAvailable:Bool = true;
 	public var canReach(get, null):Bool;
 	public var reachX:Value<Float>;
@@ -107,6 +108,9 @@ class ThirstyArm extends Component {
 	}
 
 	override function onUpdate(dt:Float) {
+		if (this.isStale) {
+			return;
+		}
 		if (this._isDown) {
 			this.reaching();
 		} else {
@@ -186,6 +190,7 @@ class ThirstyArm extends Component {
 	}
 
 	private function init(pack:AssetPack, x:Float, y:Float) {
+		var armScale = this._isFlipped ? -1 : 1;
 		this._disposer = new Disposer();
 		this._root = new Entity().add(new Sprite().setXY(x, y));
 		this._upper = new Entity() //
@@ -193,6 +198,7 @@ class ThirstyArm extends Component {
 				.setAnchor(ArmUtil.UPPERARM_WIDTH / 2, 0));
 		this._lower = new Entity() //
 			.add(new ImageSprite(pack.getTexture("cafe/body/armBottom")) //
+				.setScaleXY(armScale, 1) //
 				.setXY(ArmUtil.UPPERARM_WIDTH / 2, ArmUtil.SEGMENT_LENGTH_TOP) //
 				.setAnchor(ArmUtil.LOWERARM_WIDTH / 2, ArmUtil.ARM_OVERLAP));
 

@@ -81,7 +81,8 @@ class PersonArm extends Component {
 			.add(_topPivot = new Sprite().setXY(x, -78)) //
 			.addChild(new Entity() //
 				.add(_bottom = new ImageSprite(pack.getTexture("runner/body/arm")) //
-					.setAnchor(8, 10).setXY(-1, 68)) //
+					.setAnchor(8, 10) //
+					.setXY(-1, 68)) //
 				.addChild(new Entity() //
 					.add(_hand = new ImageSprite(pack.getTexture("runner/body/hand")) //
 						.setAnchor(12, 6) //
