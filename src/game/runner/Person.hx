@@ -239,7 +239,7 @@ class Person extends Component {
 	private static inline var MAX_ANGLE = 80;
 	private static inline var JUMP_DURATION = 1;
 	private static inline var SURF_DURATION = 1;
-	private static inline var CROUCH_DURATION = 0.5;
+	private static inline var CROUCH_DURATION = 0.75;
 	private static inline var FLOOR_Y = 980;
 	private static inline var JUMP_HEIGHT = 500;
 }

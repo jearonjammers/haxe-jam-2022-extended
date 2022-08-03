@@ -53,6 +53,18 @@ class PersonLeg extends Component {
 		var CROUCH_OFFSET_TOP = 60;
 		var CROUCH_OFFSET_BOTTOM = 110;
 		var SHOE_OFFSET = -48;
+		switch _type {
+			case Walk:
+				if (Math.abs(p) < 0.1 && _isFront) {
+					Audio.playSound_("sfx/runner/step");
+				}
+			case Crouch:
+				if (Math.abs(p) < 0.1 && _isFront) {
+					Audio.playSound_("sfx/runner/crouch");
+				}
+			case _:
+		}
+
 		_topPivot.rotation._ = switch [p >= 0, _type] {
 			case [true, Jump]: _isFront ? p * -10 - JUMP_OFFSET_TOP : p * -10 - JUMP_OFFSET_TOP;
 			case [true, Crouch]: p * -60 - CROUCH_OFFSET_TOP;
