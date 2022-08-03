@@ -33,22 +33,18 @@ class TextGame extends Component {
 		}
 	}
 
-	override public function onUpdate(dt:Float) {
-		var spr = _root.get(RGBSprite);
-		var p = spr.getPercent();
-		if (p > 0) {
-			spr.setPercent(p - dt * 2);
-		}
-	}
-
 	private function init(pack:AssetPack, width:Float, height:Float) {
 		Audio.stopMixer_();
 		Audio.stop_();
 		Audio.stopDrink_();
+		Audio.playSound_("sfx/text/passOut");
 		this._root = new Entity();
-		this._root.add(new RGBSprite(172, 221, 229, 0, 0, 0, width, height));
+		this._root.add(new FillSprite(0xACDDE5, width, height));
+		var eyes = new FillSprite(0, width, height).setXY(0, -height);
+		this._root.addChild(new Entity().add(eyes));
 		this._root.addChild(new Entity().add(_phone = new ImageSprite(pack.getTexture("text/phone")).centerAnchor()));
 		_phone.setXY(1810, 935);
+		eyes.y.animateTo(0, 0.75, Ease.bounceOut);
 
 		var offset = 550;
 		var Y_0 = 250 + offset;
@@ -69,11 +65,7 @@ class TextGame extends Component {
 		_text3.alpha._ = 0;
 		_text4.alpha._ = 0;
 		this._root.add(new Script()).get(Script).run(new Sequence([
-			new Delay(1.25),
-			new CallFunction(() -> {
-				Audio.playSound_("sfx/text/passOut");
-			}),
-			new Delay(1),
+			new Delay(1.5),
 			new CallFunction(() -> {
 				Audio.playSound_("sfx/text/vibrate");
 				_signal = System.pointer.down.connect(_ -> {

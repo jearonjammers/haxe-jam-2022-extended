@@ -22,7 +22,10 @@ class OverallScore extends Component {
 	}
 
 	public function tally():Void {
-		this._bestScore = this.scoreFirst._ + this.scoreSecond._;
+		var s = this.scoreFirst._ + this.scoreSecond._;
+		if (s > this._bestScore) {
+			this._bestScore = s;
+		}
 	}
 
 	private function get_currentScore():String {
@@ -32,7 +35,6 @@ class OverallScore extends Component {
 	private function get_bestScore():String {
 		return formatScore(this._bestScore);
 	}
-
 
 	private function formatScore(score:Int):String {
 		if (score < 10) {
