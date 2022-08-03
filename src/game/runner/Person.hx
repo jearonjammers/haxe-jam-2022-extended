@@ -72,15 +72,15 @@ class Person extends Component {
 			_startMult = FMath.clamp(_startMult + dt * 0.5, 0, 1);
 		}
 		if (movetype == Surf) {
-			_balanceMult += dt * 1.5;
+			_balanceMult += dt * 1.4;
 		} else {
 			_balanceMult *= 0.98;
 		}
 		_balanceMult = FMath.clamp(_balanceMult, 1, 10);
 		if (_isDown) {
-			this._velo += dt * 1.25 * _startMult * _balanceMult;
+			this._velo += dt * 1.125 * _startMult * _balanceMult;
 		} else {
-			this._velo -= dt * 1.25 * _startMult * _balanceMult;
+			this._velo -= dt * 1.125 * _startMult * _balanceMult;
 		}
 		_balance += this._velo;
 		handleRotation();
@@ -187,7 +187,8 @@ class Person extends Component {
 				_lowerPivot.anchorY.behavior = new Sine(0, 5, time / 2);
 				_upperPivot.rotation.behavior = new Sine(15, 8, time / 2);
 			case Surf:
-				Audio.playSound_("sfx/runner/crouch");
+				Audio.playSound_("sfx/runner/surf");
+				Audio.playSound_("sfx/runner/puke");
 				_lowerPivot.anchorY.behavior = new Sine(0, 0, time / 2);
 				_upperPivot.rotation.behavior = new Sine(-2, 2, time);
 				this._liquid.visible = true;
@@ -237,9 +238,9 @@ class Person extends Component {
 	private var _hasHandledInstruct2:Bool = false;
 
 	private static inline var MAX_ANGLE = 80;
-	private static inline var JUMP_DURATION = 1;
+	private static inline var JUMP_DURATION = 1.25;
 	private static inline var SURF_DURATION = 1;
-	private static inline var CROUCH_DURATION = 0.75;
+	private static inline var CROUCH_DURATION = 1.25;
 	private static inline var FLOOR_Y = 980;
 	private static inline var JUMP_HEIGHT = 500;
 }

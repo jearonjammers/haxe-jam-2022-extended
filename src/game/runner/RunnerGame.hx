@@ -312,7 +312,7 @@ class RunnerGame extends Component {
 		}
 	}
 
-	private static inline var ENEMY_DUR_START = 1;
+	private static inline var ENEMY_DUR_START = 2;
 	private static inline var ENEMY_DUR_MIN = 3;
 	private static inline var ENEMY_DUR_MAX = 5;
 
