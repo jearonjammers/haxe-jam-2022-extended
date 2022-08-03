@@ -34,7 +34,9 @@ class TextGame extends Component {
 	}
 
 	private function init(pack:AssetPack, width:Float, height:Float) {
+		Audio.stopMixer_();
 		Audio.stop_();
+		Audio.stopDrink_();
 		this._root = new Entity();
 		this._root.add(new FillSprite(0x000000, width, height));
 		this._root.addChild(new Entity().add(_phone = new ImageSprite(pack.getTexture("text/phone")).centerAnchor()));

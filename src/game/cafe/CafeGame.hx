@@ -45,9 +45,11 @@ class CafeGame extends Component {
 			if (_thirstyPerson.state != Mad) {
 				if (isDrinking() && _thirstyPerson.state != Drinking) {
 					_thirstyPerson.drink();
-					Audio.playSound_("sfx/cafe/chug");
+					Audio.playChug_();
 				} else if (!isDrinking() && _thirstyPerson.state != Thirsty) {
 					_thirstyPerson.thirst();
+					trace("coo");
+					Audio.stopDrink_();
 				}
 			}
 
@@ -57,7 +59,7 @@ class CafeGame extends Component {
 				sc.scoreFirst._ = Math.floor(_fillAmount * 84);
 			} else if (isSpilling()) {
 				if (_spillAmount == 0) {
-					Audio.playSound_("sfx/cafe/bottleSplash");
+					Audio.playSplash_();
 				}
 				_spillAmount += dt;
 			}

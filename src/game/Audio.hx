@@ -26,8 +26,24 @@ class Audio extends Component {
 		System.root.get(Audio).playMain();
 	}
 
+	public static function playChug_():Void {
+		System.root.get(Audio).playChug();
+	}
+
+	public static function playSplash_():Void {
+		System.root.get(Audio).playSplash();
+	}
+
 	public static function stop_():Void {
 		System.root.get(Audio).stop();
+	}
+
+	public static function stopMixer_():Void {
+		System.root.get(Audio).stopMixer();
+	}
+
+	public static function stopDrink_():Void {
+		System.root.get(Audio).stopDrink();
 	}
 
 	public static function playSound_(name:String):Void {
@@ -66,6 +82,27 @@ class Audio extends Component {
 		}
 	}
 
+	public function stopDrink():Void {
+		if (_drink != null) {
+			_drink.dispose();
+			_drink = null;
+		}
+	}
+
+	public function stopMixer():Void {
+		_mixer.stopAll();
+	}
+
+	public function playChug():Void {
+		this.stopDrink();
+		_drink = _pack.getSound("sfx/cafe/chug").loop();
+	}
+
+	public function playSplash():Void {
+		this.stopDrink();
+		_drink = _pack.getSound("sfx/cafe/bottleSplash").loop();
+	}
+
 	public function playSound(name:String):Void {
 		if (!_madeSounds.exists(name)) {
 			var packSound = _pack.getSound(name);
@@ -79,5 +116,6 @@ class Audio extends Component {
 	private var _pack:AssetPack;
 	private var _mixer:Mixer;
 	private var _bg:Playback;
+	private var _drink:Playback;
 	private var _madeSounds:Map<String, Sound>;
 }
