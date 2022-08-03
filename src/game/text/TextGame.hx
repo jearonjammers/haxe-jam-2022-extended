@@ -28,8 +28,11 @@ class TextGame extends Component {
 
 	override function onRemoved() {
 		owner.removeChild(this._root);
-		if (_signal != null) {
-			_signal.dispose();
+		if (_signal1 != null) {
+			_signal1.dispose();
+		}
+		if (_signal2 != null) {
+			_signal2.dispose();
 		}
 	}
 
@@ -68,7 +71,11 @@ class TextGame extends Component {
 			new Delay(1.5),
 			new CallFunction(() -> {
 				Audio.playSound_("sfx/text/vibrate");
-				_signal = System.pointer.down.connect(_ -> {
+				_signal1 = System.pointer.down.connect(_ -> {
+					this.dispose();
+					System.root.add(new RunnerGame(pack, 1920, 1080));
+				}).once();
+				_signal2 = System.keyboard.down.connect(_ -> {
 					this.dispose();
 					System.root.add(new RunnerGame(pack, 1920, 1080));
 				}).once();
@@ -148,5 +155,6 @@ class TextGame extends Component {
 	private var _text2:Sprite;
 	private var _text3:Sprite;
 	private var _text4:Sprite;
-	private var _signal:SignalConnection = null;
+	private var _signal1:SignalConnection = null;
+	private var _signal2:SignalConnection = null;
 }
